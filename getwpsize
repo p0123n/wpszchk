@@ -1,0 +1,33 @@
+#! /bin/bash
+
+## WEBPAGE SIZE CHECKING TOOL
+#
+# Tested on:
+#  Linux 3.2.0-34-generic #53-Ubuntu x86_64 x86_64 x86_64 GNU/Linux
+#
+# Main repository: https://github.com/p0123n/wpszchk
+#
+
+if [ "$#" -lt "1" ]; then
+  echo "Usage:   `basename $0`  URL (with http or https) timeout (in seconds, optional. default: 9s.)" >&2
+  echo "Example: `basename $0` 'http://google.com/' 2" >&2
+  exit 1
+fi
+
+CPATH="`dirname \"$0\"`"
+CPATH="`( cd \"$CPATH\" && pwd -P )`/"
+
+if [ -z "$CPATH" ] ; then
+  echo "Can't determine script path."
+  echo "Check permissions and try again."
+  exit 1
+fi
+
+PHANTOM="$CPATH/lib/phantom.js"
+VARPATH="$CPATH/var"
+LOGPATH="$CPATH/log"
+.       "$CPATH/lib/misc.sh"
+CHEKURL=${1}
+TIMEOUT=${2:-9}
+
+setTimeout $TIMEOUT startChecking
